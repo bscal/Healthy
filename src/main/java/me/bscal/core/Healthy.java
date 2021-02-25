@@ -1,5 +1,6 @@
 package me.bscal.core;
 
+import me.bscal.core.register.HItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -27,6 +28,9 @@ public class Healthy
 
 	public Healthy()
 	{
+		// Register Registries
+		HItemRegistry.Register();
+
 		// Register the setup method for modloading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
 		// Register the enqueueIMC method for modloading
