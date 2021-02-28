@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "0": "assets/bandage",
-    "particle": "assets/bandage"
-  }
-}
