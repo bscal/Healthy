@@ -52,6 +52,6 @@ public class Bandage extends Item
 	@Override
 	public UseAction getUseAction(ItemStack stack)
 	{
-		return UseAction.DRINK;
+		return UseAction.SPEAR;
 	}
 }

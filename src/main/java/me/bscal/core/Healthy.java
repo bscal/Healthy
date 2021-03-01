@@ -1,6 +1,6 @@
 package me.bscal.core;
 
-import me.bscal.core.register.HItemRegistry;
+import me.bscal.core.register.ItemRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -14,16 +14,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod("healthy")
+@Mod(Healthy.MOD_ID)
 public class Healthy
 {
 	public static final String MOD_ID = "healthy";
+	public static final String MOD_NAME = "Healthy";
 	public static final Logger LOGGER = LogManager.getLogger();
 
 	public Healthy()
 	{
 		// Register Registries
-		HItemRegistry.Register();
+		ItemRegistry.Register();
 
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::EnqueueIMC);

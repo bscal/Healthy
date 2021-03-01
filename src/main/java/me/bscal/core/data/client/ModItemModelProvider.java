@@ -1,11 +1,10 @@
 package me.bscal.core.data.client;
 
 import me.bscal.core.Healthy;
-import me.bscal.core.register.HItemRegistry;
+import me.bscal.core.register.ItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
-import net.minecraft.util.IItemProvider;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -24,7 +23,7 @@ public class ModItemModelProvider extends ItemModelProvider
 	{
 		ModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));
 
-		builder(HItemRegistry.BANDAGE, itemGenerated);
+		builder(ItemRegistry.BANDAGE, itemGenerated);
 	}
 
 	// Helper methods
