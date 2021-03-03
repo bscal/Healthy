@@ -3,12 +3,17 @@ package me.bscal.common.items;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.FoodStats;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.event.entity.item.ItemEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 
 public class Bandage extends Item
 {
@@ -29,6 +34,8 @@ public class Bandage extends Item
 		}
 		return ActionResult.resultFail(itemstack);
 	}
+
+
 
 	@Override
 	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving)

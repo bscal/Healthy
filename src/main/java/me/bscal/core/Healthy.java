@@ -1,7 +1,14 @@
 package me.bscal.core;
 
+import me.bscal.common.capability.CapabilityHandler;
+import me.bscal.common.capability.healing.Healing;
+import me.bscal.common.capability.healing.HealingStorage;
+import me.bscal.common.capability.healing.IHealing;
+import me.bscal.common.events.PlayerTickHandler;
 import me.bscal.core.register.ItemRegistry;
+import net.minecraft.world.GameRules;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -26,16 +33,21 @@ public class Healthy
 		// Register Registries
 		ItemRegistry.Register();
 
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
+		CapabilityManager.INSTANCE.register(IHealing.class, new HealingStorage(), Healing::new);
+
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::OnCommonSetup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::EnqueueIMC);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ProcessIMC);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::DoClientStuff);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::OnClientSetup);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::OnServerStarting);
 
 		// Register ourselves for server and other game events we are interested in
 		MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.register(new PlayerTickHandler());
+		MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
 	}
 
-	private void Setup(final FMLCommonSetupEvent event)
+	private void OnCommonSetup(final FMLCommonSetupEvent event)
 	{
 	}
 
@@ -47,14 +59,14 @@ public class Healthy
 	{
 	}
 
-	private void DoClientStuff(final FMLClientSetupEvent event)
+	private void OnClientSetup(final FMLClientSetupEvent event)
 	{
 	}
 
-	// You can use SubscribeEvent and let the Event Bus discover methods to call
-	@SubscribeEvent
-	public void OnServerStarting(FMLServerStartingEvent event)
+	public void OnServerStarting(final FMLServerStartingEvent event)
 	{
+		event.getServer().getGameRules().get(GameRules.NATURAL_REGENERATION).set(false, event.getServer());
+
 	}
 
 }
