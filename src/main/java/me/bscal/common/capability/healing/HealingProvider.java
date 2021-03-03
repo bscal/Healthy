@@ -19,7 +19,7 @@ public class HealingProvider implements ICapabilitySerializable<INBT>
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side)
 	{
-		return (cap == HEALING_CAP) ? (LazyOptional<T>) m_instance : null;
+		return HEALING_CAP.orEmpty(cap, LazyOptional.of(() -> m_instance));
 	}
 
 	@Override

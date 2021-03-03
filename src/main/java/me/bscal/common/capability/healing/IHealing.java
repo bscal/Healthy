@@ -1,5 +1,9 @@
 package me.bscal.common.capability.healing;
 
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -13,7 +17,7 @@ public interface IHealing
 	void Set(Heal heal);
 
 	// Updates all heals
-	void Consume();
+	float Consume();
 
 	// Max healing without comfort
 	float GetMaxFromRegen();
@@ -29,5 +33,9 @@ public interface IHealing
 
 	// Returns List of current heals
 	List<Heal> GetHeals();
+
+	ListNBT Write();
+
+	void Read(INBT data);
 
 }

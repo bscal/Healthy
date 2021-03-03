@@ -41,8 +41,8 @@ public class SideProxy implements IProxy
 		MinecraftForge.EVENT_BUS.addListener(this::OnServerAboutToStart);
 		MinecraftForge.EVENT_BUS.addListener(this::OnServerStarting);
 
-		MinecraftForge.EVENT_BUS.register(new PlayerTickHandler());
-		MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
+		MinecraftForge.EVENT_BUS.register(PlayerTickHandler.class);
+		MinecraftForge.EVENT_BUS.register(CapabilityHandler.class);
 	}
 
 	private void OnCommonSetup(final FMLCommonSetupEvent event)

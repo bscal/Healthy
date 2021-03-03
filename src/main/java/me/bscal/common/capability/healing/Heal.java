@@ -1,28 +1,33 @@
 package me.bscal.common.capability.healing;
 
-import net.minecraft.nbt.ByteNBT;
+import me.bscal.core.Healthy;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.FloatNBT;
 
 public class Heal
 {
 
+	public static final float TICKS_PER_SEC = 20.0f;
+
 	public boolean instant;
 	public boolean finished;
 
-	public float totalHealing = 0;
-	public float durationInTicks = 20.0f;
-	public float ticksPerHeal = 20.0f;
+	public float totalHealing;
+	public int durationInTicks;
+	public int ticksPerHeal;
+	public float healingPerTick;
 
 	public float totalHealingDone;
 
-	public Heal() {}
+	public Heal()
+	{
+	}
 
-	public Heal(float totalHealing, float durationInTicks, float ticksPerHeal)
+	public Heal(float totalHealing, int durationInTicks, int ticksPerHeal)
 	{
 		this.totalHealing = totalHealing;
 		this.durationInTicks = durationInTicks;
 		this.ticksPerHeal = ticksPerHeal;
+		this.healingPerTick = totalHealing / (durationInTicks / ticksPerHeal);
 	}
 
 	public float ConsumeHealing()
@@ -37,26 +42,25 @@ public class Heal
 		}
 		else
 		{
-			healing = totalHealing / ticksPerHeal;
+			healing = healingPerTick;
 			Progress();
 		}
 
-		totalHealingDone += totalHealing;
+		totalHealingDone += healing;
 
-		if (durationInTicks < 0 || totalHealingDone > totalHealing)
+		if (durationInTicks <= 0f)
 			finished = true;
 
+		if (Healthy.DEBUG)
+		{
+			Healthy.LOGGER.debug("======= Heal Trigger =======");
+			Healthy.LOGGER.debug("  Healed: " + healing);
+			Healthy.LOGGER.debug("  Duration: " + durationInTicks + " ticks");
+			Healthy.LOGGER.debug("  Healing Done: " + totalHealingDone);
+			Healthy.LOGGER.debug("  Finished: " + finished);
+		}
+
 		return healing;
-	}
-
-	public float HealingPerSec()
-	{
-		return totalHealing / (durationInTicks * 20.0f);
-	}
-
-	public float HealingPerTick()
-	{
-		return totalHealing / durationInTicks;
 	}
 
 	private void Progress()
@@ -64,7 +68,7 @@ public class Heal
 		durationInTicks -= ticksPerHeal;
 	}
 
-	public static Heal Builder(float totalHealing, float durationInTicks, float ticksPerHeal)
+	public static Heal Builder(float totalHealing, int durationInTicks, int ticksPerHeal)
 	{
 		return new Heal(totalHealing, durationInTicks, ticksPerHeal);
 	}
@@ -81,21 +85,22 @@ public class Heal
 			return null;
 
 		CompoundNBT data = new CompoundNBT();
-		data.put("instant", ByteNBT.valueOf(instant));
-		data.put("totalHealing", FloatNBT.valueOf(totalHealing));
-		data.put("ticksPerHeal", FloatNBT.valueOf(ticksPerHeal));
-		data.put("durationInTicks", FloatNBT.valueOf(durationInTicks));
-		data.put("totalHealingDone", FloatNBT.valueOf(totalHealingDone));
+		data.putBoolean("instant", instant);
+		data.putFloat("totalHealing", totalHealing);
+		data.putInt("ticksPerHeal", ticksPerHeal);
+		data.putInt("durationInTicks", durationInTicks);
+		data.putFloat("durationInTicks", healingPerTick);
+		data.putFloat("totalHealingDone", totalHealingDone);
 		return data;
 	}
-
 
 	public void Read(CompoundNBT data)
 	{
 		instant = data.getBoolean("instant");
 		totalHealing = data.getFloat("totalHealing");
-		ticksPerHeal = data.getFloat("ticksPerHeal");
-		durationInTicks = data.getFloat("durationInTicks");
+		ticksPerHeal = data.getInt("ticksPerHeal");
+		durationInTicks = data.getInt("durationInTicks");
+		healingPerTick = data.getFloat("healingPerTick");
 		totalHealingDone = data.getFloat("totalHealingDone");
 	}
 

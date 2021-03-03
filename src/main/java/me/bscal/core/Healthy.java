@@ -14,6 +14,7 @@ public class Healthy
 	public static final String MOD_ID = "healthy";
 	public static final String MOD_NAME = "Healthy";
 	public static final Logger LOGGER = LogManager.getLogger();
+	public static final boolean DEBUG = true;
 
 	public static Healthy INSTANCE;
 	public static IProxy PROXY;
