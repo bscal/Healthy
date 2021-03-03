@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Specification-Title: Healthy
-Specification-Vendor: bscal
-Specification-Version: 1
-Implementation-Title: Healthy
-Implementation-Version: 1.0
-Implementation-Vendor: bscal
-Implementation-Timestamp: 2021-02-24T19:21:38-0500
-
